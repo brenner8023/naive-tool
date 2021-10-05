@@ -2,9 +2,8 @@
  * @file 注入页面的脚本
  */
 
-;(() => {
+(() => {
     const appOnKey = 'naiveTool_isAppOn';
-    const ruleKey = 'naiveTool_interceptor_rules';
     const contentPart = 'naiveTool_plugin_content';
     const injectPart = 'naiveTool_plugin_inject';
     const iframePart = 'naiveTool_plugin_iframeApp';
@@ -17,7 +16,7 @@
         originalXhr: window.XMLHttpRequest,
         myXhr: function () {
             const modifyResponse = () => {
-                let [isMatched, result] = getMatchedRule(this.responseURL);
+                const [isMatched, result] = getMatchedRule(this.responseURL);
                 if (isMatched) {
                     this.responseText = result;
                     this.response = result;
@@ -25,13 +24,13 @@
             };
             const xhr = new pageConfig.originalXhr();
 
-            for (let prop in xhr) {
+            for (const prop in xhr) {
                 if (prop === 'onreadystatechange') {
                     xhr.onreadystatechange = (...args) =>  {
                         if (this.readyState === 4 && pageConfig.plugin.isAppOn) {
                             modifyResponse();
                         }
-                        this.onreadystatechange?.apply(this, args);
+                        this.onreadystatechange?.call(this, ...args);
                     };
                     continue;
                 }
@@ -40,7 +39,7 @@
                         if (pageConfig.plugin.isAppOn) {
                             modifyResponse();
                         }
-                        this.onload?.apply(this, args);
+                        this.onload?.call(this, ...args);
                     };
                     continue;
                 }
@@ -66,7 +65,7 @@
             }
         },
         originalFetch: window.fetch.bind(window),
-        myFetch: function (...args) {},
+        myFetch: function (...args) { console.log(args); },
     };
 
     const changeReq = (isAppOn: boolean) => {

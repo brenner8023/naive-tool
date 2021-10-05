@@ -5,16 +5,16 @@ import { shallowCopy, getJsonFromStr } from '@/utils/index';
 import { ruleKey } from '@/const';
 
 interface CardData {
-    name: string;
-    url: string;
-    isOpen: boolean;
-    response: string;
+    name: string
+    url: string
+    isOpen: boolean
+    response: string
 }
 
 interface UseRuleArgs {
-    setUrlCard(newCards: CardData[]): void;
-    rules: CardData[];
-    isAppOn: Ref<boolean>;
+    setUrlCard(newCards: CardData[]): void
+    rules: CardData[]
+    isAppOn: Ref<boolean>
 }
 
 export const useCard = () => {
@@ -59,7 +59,7 @@ export const useRule = ({ setUrlCard, rules, isAppOn }: UseRuleArgs) => {
         }
     });
     
-    const saveRule = (isShowInfo: boolean = true) => {
+    const saveRule = (isShowInfo = true) => {
         chrome.storage?.local.set({ [ruleKey]: rules });
         isShowInfo && message.success('Saved successfully!');
     };
@@ -93,7 +93,7 @@ export const useJsonRes = (modelValue: Ref<string>, emit: (...args: any[]) => vo
     }, { immediate: true });
 
     const onUpdateJson = ( { nodePath, nodeVal }: { nodePath: string; nodeVal: unknown; } ) => {
-        let res = jsonData.value;
+        const res = jsonData.value;
         (new Function('res', 'nodeVal', `return res${nodePath.replace('root', '')}=nodeVal`))(res, nodeVal);
         responseText.value = JSON.stringify(res, null, 4);
     };

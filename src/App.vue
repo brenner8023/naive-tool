@@ -1,25 +1,28 @@
 <template>
-    <div class="naive-tool-container">
-        <NSpace justify="end">
-            <NSwitch v-model:value="isAppOn" />
-        </NSpace>
-        <NTabs type="line" v-show="isAppOn">
-            <NTabPane name="interceptor" tab="Interceptor">
-                <NMessageProvider placement="bottom-right">
-                    <Interceptor :is-app-on="isAppOn" />
-                </NMessageProvider>
-            </NTabPane>
-            <NTabPane name="the beatles" tab="the Beatles">Hey Jude</NTabPane>
-            <NTabPane name="jay chou" tab="周杰伦">七里香</NTabPane>
-        </NTabs>
-        <div v-show="!isAppOn" class="naive-tool__empty">
-            <img src="./img/empty.svg" alt="empty" />
-        </div>
+  <div class="naive-tool-container">
+    <NSpace justify="end">
+      <NSwitch v-model:value="isAppOn" />
+    </NSpace>
+    <NTabs v-show="isAppOn" type="line">
+      <NTabPane name="interceptor" tab="Interceptor">
+        <NMessageProvider placement="bottom-right">
+          <Interceptor :is-app-on="isAppOn" />
+        </NMessageProvider>
+      </NTabPane>
+      <NTabPane name="the beatles" tab="the Beatles">
+        Hey Jude
+      </NTabPane>
+      <NTabPane name="jay chou" tab="周杰伦">
+        七里香
+      </NTabPane>
+    </NTabs>
+    <div v-show="!isAppOn" class="naive-tool__empty">
+      <img src="./img/empty.svg" alt="empty">
     </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
 import { NMessageProvider } from 'naive-ui';
 import { useAppOn } from '@/hooks/index';
 

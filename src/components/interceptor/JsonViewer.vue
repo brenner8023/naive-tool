@@ -1,17 +1,19 @@
 <template>
-    <div>Replace With:</div>
-    <NInput
-        v-model:value="responseText"
-        type="textarea"
-        placeholder="response"></NInput>
-    <VueJsonPretty
-        v-show="responseText !== ''"
-        selectable-type="single"
-        :show-length="true"
-        :data="jsonData"
-        :deep="2"
-        @click="onNodeClick"></VueJsonPretty>
-    <JsonEditWin ref="editWinRef" @update-json="onUpdateJson" />
+  <div>Replace With:</div>
+  <NInput
+    v-model:value="responseText"
+    type="textarea"
+    placeholder="response"
+  />
+  <VueJsonPretty
+    v-show="responseText !== ''"
+    selectable-type="single"
+    :show-length="true"
+    :data="jsonData"
+    :deep="2"
+    @click="onNodeClick"
+  />
+  <JsonEditWin ref="editWinRef" @update-json="onUpdateJson" />
 </template>
 
 <script lang="ts" setup>

@@ -1,39 +1,46 @@
 <template>
-    <NCard
-        v-for="(cardItem, cardIndex) in urlCardList"
-        :key="cardIndex"
-        :closable="isCardClose(cardIndex)"
-        @close="removeUrlCard(cardIndex)"
-        embedded>
-        <div class="naive-interceptor__card-header">
-            <NSwitch v-model:value="cardItem.isOpen" size="small" />
-            <NInput
-                v-model:value="cardItem.name"
-                class="naive-interceptor__card-name"
-                round
-                :clearable="true"
-                placeholder="interface name"></NInput>
-        </div>
-        <NCollapse display-directive="show">
-            <NCollapseItem>
-                <template #header>
-                    <NInput
-                        type="text"
-                        v-model:value="cardItem.url"
-                        placeholder="eg: /api/host?id=yy"
-                        :clearable="true"
-                        @click.stop></NInput>
-                </template>
-                <JsonViewer v-model="cardItem.response"></JsonViewer>
-            </NCollapseItem>
-        </NCollapse>
-    </NCard>
-    <div class="naive-interceptor__btn-group">
-        <NSpace justify="center">
-            <NButton @click="addUrlCard()">Add</NButton>
-            <NButton @click="saveRule()" type="primary">Save</NButton>
-        </NSpace>
+  <NCard
+    v-for="(cardItem, cardIndex) in urlCardList"
+    :key="cardIndex"
+    :closable="isCardClose(cardIndex)"
+    embedded
+    @close="removeUrlCard(cardIndex)"
+  >
+    <div class="naive-interceptor__card-header">
+      <NSwitch v-model:value="cardItem.isOpen" size="small" />
+      <NInput
+        v-model:value="cardItem.name"
+        class="naive-interceptor__card-name"
+        round
+        :clearable="true"
+        placeholder="interface name"
+      />
     </div>
+    <NCollapse display-directive="show">
+      <NCollapseItem>
+        <template #header>
+          <NInput
+            v-model:value="cardItem.url"
+            type="text"
+            placeholder="eg: /api/host?id=yy"
+            :clearable="true"
+            @click.stop
+          />
+        </template>
+        <JsonViewer v-model="cardItem.response" />
+      </NCollapseItem>
+    </NCollapse>
+  </NCard>
+  <div class="naive-interceptor__btn-group">
+    <NSpace justify="center">
+      <NButton @click="addUrlCard()">
+        Add
+      </NButton>
+      <NButton type="primary" @click="saveRule()">
+        Save
+      </NButton>
+    </NSpace>
+  </div>
 </template>
 
 <script lang="ts" setup>

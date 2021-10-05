@@ -1,28 +1,31 @@
 <template>
-    <NModal
-        v-model:show="isShowModal"
-        preset="dialog"
-        :show-icon="false"
-        title="编辑"
-        positive-text="确认"
-        @positive-click="submitJsonVal()">
-        <NSpace :vertical="true">
-            <div>
-                {{ jsonNodePath + ' :' }}
-            </div>
-            <NInput v-model:value="jsonNodeVal" placeholder="Please input" clearable />
-            <NRadioGroup v-if="isMulti" v-model:value="selectedVal">
-                <NRadio value="package">
-                    {{ jsonNodeVal === 'undefined' ? '删除节点' : jsonNodeVal }}
-                </NRadio>
-                <NRadio value="str">{{ nodeValStr }}</NRadio>
-            </NRadioGroup>
-        </NSpace>
-    </NModal>
+  <NModal
+    v-model:show="isShowModal"
+    preset="dialog"
+    :show-icon="false"
+    title="编辑"
+    positive-text="确认"
+    @positive-click="submitJsonVal()"
+  >
+    <NSpace :vertical="true">
+      <div>
+        {{ jsonNodePath + ' :' }}
+      </div>
+      <NInput v-model:value="jsonNodeVal" placeholder="Please input" clearable />
+      <NRadioGroup v-if="isMulti" v-model:value="selectedVal">
+        <NRadio value="package">
+          {{ jsonNodeVal === 'undefined' ? '删除节点' : jsonNodeVal }}
+        </NRadio>
+        <NRadio value="str">
+          {{ nodeValStr }}
+        </NRadio>
+      </NRadioGroup>
+    </NSpace>
+  </NModal>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed } from 'vue';
 import { getJsonFromStr } from '@/utils/index';
 
 const emit = defineEmits(['update-json']);
@@ -58,7 +61,7 @@ const submitJsonVal = () => {
 };
 
 export interface IJsonEditWin {
-    showWin: ({ nodePath, nodeVal }: Record<string, string>) => void;
+    showWin: ({ nodePath, nodeVal }: Record<string, string>) => void
 }
 let exposed: IJsonEditWin = {
     showWin: ({ nodePath, nodeVal }: Record<string, string>) => {

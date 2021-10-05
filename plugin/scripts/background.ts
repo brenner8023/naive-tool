@@ -3,10 +3,8 @@
  */
 
 const appOnKey = 'naiveTool_isAppOn';
-const ruleKey = 'naiveTool_interceptor_rules';
 const contentPart = 'naiveTool_plugin_content';
 const backgroundPart = 'naiveTool_plugin_background';
-const injectPart = 'naiveTool_plugin_inject';
 const iframePart = 'naiveTool_plugin_iframeApp';
 const toggleIframe = 'naiveTool_plugin_toggoleIframeShow';
 

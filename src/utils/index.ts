@@ -1,7 +1,7 @@
 
-export function getJsonFromStr(str: string): [boolean, object] {
+export function getJsonFromStr(str: string): [boolean, Record<string, any>] {
     try {
-        let res = (new Function(`return ${str}`))();
+        const res = (new Function(`return ${str}`))();
         return [true, res];
     } catch (err) {
 

@@ -2,13 +2,12 @@
  * @file 插件脚本
  */
 
-; (() => {
+ (() => {
     const appOnKey = 'naiveTool_isAppOn';
     const ruleKey = 'naiveTool_interceptor_rules';
     const contentPart = 'naiveTool_plugin_content';
     const injectPart = 'naiveTool_plugin_inject';
     const backgroundPart = 'naiveTool_plugin_background';
-    const iframePart = 'naiveTool_plugin_iframeApp';
     const toggleIframe = 'naiveTool_plugin_toggoleIframeShow';
 
     function appendScript() {
@@ -23,7 +22,7 @@
     }
 
     function getInterceptorData() {
-        chrome.storage.local.get([appOnKey, ruleKey], (result: object) => {
+        chrome.storage.local.get([appOnKey, ruleKey], (result: Record<string, any>) => {
             window.postMessage({
                 from: contentPart,
                 to: injectPart,
@@ -36,9 +35,7 @@
     }
 
     function appendIframe() {
-        const toggleInterceptorShow = 'toggleInterceptorShow';
         let iframe: HTMLIFrameElement;
-        let iframeLoaded = false;
 
         const iframeStyleList = [
             {

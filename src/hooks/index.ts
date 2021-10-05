@@ -6,7 +6,7 @@ export const useAppOn = () => {
     const isAppOn = ref(false);
 
     watch(isAppOn, newVal => {
-        let params = { from: iframePart, to: backgroundPart, key: appOnKey, value: newVal };
+        const params = { from: iframePart, to: backgroundPart, key: appOnKey, value: newVal };
         chrome.runtime?.sendMessage(chrome.runtime.id, params);
 
         window.parent?.postMessage({
