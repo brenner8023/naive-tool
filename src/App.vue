@@ -21,29 +21,12 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { NMessageProvider } from 'naive-ui';
-import { pluginBackground, iframeApp, injectPage, appOnKey } from '@/const';
+import { backgroundPart, iframePart, appOnKey, contentPart, injectPart } from '@/const';
+import { useAppOn } from '@/hooks/index';
 
-const isAppOn = ref(false);
-
-const postAppMsg = () => {
-    let params = { from: iframeApp, to: pluginBackground, key: 'isAppOn', value: isAppOn.value };
-    chrome.runtime?.sendMessage(chrome.runtime.id, params);
-    window.parent?.postMessage({
-        from: iframeApp,
-        to: injectPage,
-        key: 'isAppOn',
-        value: isAppOn.value
-    }, '*');
-};
-
-watch(isAppOn, newVal => {
-    chrome.storage?.local.set({ [appOnKey]: newVal });
-    postAppMsg();
-});
-
-chrome.storage?.local.get([appOnKey], res => {
-    isAppOn.value = !!res[appOnKey];
-});
+const {
+    isAppOn,
+} = useAppOn();
 </script>
 
 <style scoped>

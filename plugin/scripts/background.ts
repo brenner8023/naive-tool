@@ -4,16 +4,20 @@
 
 const appOnKey = 'naiveTool_isAppOn';
 const ruleKey = 'naiveTool_interceptor_rules';
+const contentPart = 'naiveTool_plugin_content';
+const backgroundPart = 'naiveTool_plugin_background';
+const injectPart = 'naiveTool_plugin_inject';
+const iframePart = 'naiveTool_plugin_iframeApp';
+const toggleIframe = 'naiveTool_plugin_toggoleIframeShow';
 
 chrome.browserAction.onClicked.addListener(() => {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        chrome.tabs.sendMessage(tabs[0].id, { from: 'pluginBackground', to: 'pluginContent', value: 'toggleIframeShow' });
+        chrome.tabs.sendMessage(tabs[0].id, { from: backgroundPart, to: contentPart, value: toggleIframe });
     });
 });
 
-chrome.runtime.onMessage.addListener(msg => {
-    let { from, to, key, value } = msg;
-    if (from === 'iframeApp' && to === 'pluginBackground' && key === 'isAppOn') {
+chrome.runtime.onMessage.addListener(({ from, to, key, value }) => {
+    if (from === iframePart && to === backgroundPart && key === appOnKey) {
         if (value === true) {
             chrome.browserAction.setIcon({
                 path: {
@@ -33,13 +37,5 @@ chrome.runtime.onMessage.addListener(msg => {
                 }
             });
         }
-    }
-});
-
-chrome.storage.local.get([appOnKey], result => {
-    if (result.hasOwnProperty(appOnKey)) {
-        result[appOnKey] ?
-            chrome.browserAction.setIcon({ path: '/icons/logo-16.png' }) :
-            chrome.browserAction.setIcon({ path: '/icons/logo-16-disable.png' });
     }
 });

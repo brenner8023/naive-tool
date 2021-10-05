@@ -38,7 +38,7 @@
 
 <script lang="ts" setup>
 import { toRaw, toRef } from 'vue';
-import { useCard, useRule } from '@/hooks/index';
+import { useCard, useRule } from '@/hooks/interceptor';
 
 const props = defineProps({
     isAppOn: {

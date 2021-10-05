@@ -1,10 +1,4 @@
 
-export const pluginBackground = 'pluginBackground';
-
-export const iframeApp = 'iframeApp';
-
-export const injectPage = 'injectPage';
-
 export const appOnKey = 'naiveTool_isAppOn';
 
 export const ruleKey = 'naiveTool_interceptor_rules';

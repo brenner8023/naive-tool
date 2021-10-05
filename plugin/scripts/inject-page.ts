@@ -3,34 +3,25 @@
  */
 
 ;(() => {
+    const appOnKey = 'naiveTool_isAppOn';
+    const ruleKey = 'naiveTool_interceptor_rules';
+    const contentPart = 'naiveTool_plugin_content';
+    const injectPart = 'naiveTool_plugin_inject';
+    const iframePart = 'naiveTool_plugin_iframeApp';
+
     const pageConfig = {
         plugin: {
             isAppOn: false,
             interceptorRules: [],
         },
-        getMatchedRule: (responseUrl: string): [boolean, string] => {
-            let isMatched = false;
-            let result = '';
-            pageConfig.plugin.interceptorRules.find(({ isOpen, url, response = '' }) => {
-                if (isOpen && url && response && responseUrl.includes(url)) {
-                    isMatched = true;
-                    result = response;
-                    return true;
-                }
-                return false;
-            });
-            return [isMatched, result];
-        },
         originalXhr: window.XMLHttpRequest,
         myXhr: function () {
             const modifyResponse = () => {
-                let [isMatched, result] = pageConfig.getMatchedRule(this.responseURL);
+                let [isMatched, result] = getMatchedRule(this.responseURL);
                 if (isMatched) {
                     this.responseText = result;
                     this.response = result;
                 }
-
-                // console.log(isMatched, this.responseURL);
             };
             const xhr = new pageConfig.originalXhr();
 
@@ -78,25 +69,41 @@
         myFetch: function (...args) {},
     };
 
+    const changeReq = (isAppOn: boolean) => {
+        if (isAppOn) {
+            window.XMLHttpRequest = pageConfig.myXhr as any;
+        } else {
+            window.XMLHttpRequest = pageConfig.originalXhr;
+        }
+    };
+
+    const getMatchedRule = (responseUrl: string): [boolean, string] => {
+        let isMatched = false;
+        let result = '';
+        pageConfig.plugin.interceptorRules.find(({ isOpen, url, response = '' }) => {
+            if (isOpen && url && response && responseUrl.includes(url)) {
+                isMatched = true;
+                result = response;
+                return true;
+            }
+            return false;
+        });
+        return [isMatched, result];
+    };
+
     window.addEventListener('message', ({ data: { from, to, key ,value, localData } }) => {
-        if (from === 'pluginContent' && to === 'injectPage' && localData) {
+        if (from === contentPart && to === injectPart && localData) {
+
+            // 初始化数据
             pageConfig.plugin.isAppOn = localData.isAppOn;
             pageConfig.plugin.interceptorRules = localData.interceptorRules;
 
-            if (pageConfig.plugin.isAppOn) {
-                window.XMLHttpRequest = pageConfig.myXhr as any;
-            } else {
-                window.XMLHttpRequest = pageConfig.originalXhr;
-            }
-        }
-        else if (from === 'iframeApp' && to === 'injectPage' && key === 'isAppOn') {
-            pageConfig.plugin.isAppOn = value;
+            changeReq(localData.isAppOn);
+        } else if (from === iframePart && to === injectPart && key === appOnKey) {
 
-            // if (pageConfig.plugin.isAppOn) {
-            //     window.XMLHttpRequest = pageConfig.myXhr as any;
-            // } else {
-            //     window.XMLHttpRequest = pageConfig.originalXhr;
-            // }
+            // 启动或停止插件
+            pageConfig.plugin.isAppOn = value;
+            changeReq(value);
         }
     }, false);
 })();

@@ -5,6 +5,11 @@
 ; (() => {
     const appOnKey = 'naiveTool_isAppOn';
     const ruleKey = 'naiveTool_interceptor_rules';
+    const contentPart = 'naiveTool_plugin_content';
+    const injectPart = 'naiveTool_plugin_inject';
+    const backgroundPart = 'naiveTool_plugin_background';
+    const iframePart = 'naiveTool_plugin_iframeApp';
+    const toggleIframe = 'naiveTool_plugin_toggoleIframeShow';
 
     function appendScript() {
         const myScript = document.createElement('script');
@@ -18,14 +23,10 @@
     }
 
     function getInterceptorData() {
-        const defaultConfig = {
-            from: 'pluginContent',
-            to: 'injectPage',
-        };
-
         chrome.storage.local.get([appOnKey, ruleKey], (result: object) => {
             window.postMessage({
-                ...defaultConfig,
+                from: contentPart,
+                to: injectPart,
                 localData: {
                     isAppOn: result[appOnKey] || false,
                     interceptorRules: result[ruleKey] || [],
@@ -96,10 +97,13 @@
                     document.body.appendChild(iframe);
 
                     let isIframeShow = false;
-                    chrome.runtime?.onMessage.addListener(({ from, value }) => {
-                        if (from === 'pluginBackground' && value === 'toggleIframeShow') {
+                    chrome.runtime?.onMessage.addListener(({ from, to, value }) => {
+                        if (from === backgroundPart && to === contentPart && value === toggleIframe) {
                             isIframeShow = !isIframeShow;
-                            iframe.style.setProperty('transform', isIframeShow ? 'translateX(0)' : 'translateX(520px)', 'important');
+                            iframe.style.setProperty(
+                                'transform',
+                                isIframeShow ? 'translateX(0)' : 'translateX(520px)', 'important'
+                            );
                         }
                         return true;
                     });
