@@ -15,10 +15,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, toRef } from 'vue';
 import VueJsonPretty from 'vue-json-pretty';
 import 'vue-json-pretty/lib/styles.css';
-import { getJsonFromStr} from '@/utils/index';
+import { useJsonRes } from '@/hooks/interceptor';
 
 import type { IJsonEditWin } from './JsonEditWin.vue';
 
@@ -31,24 +31,13 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const responseText = ref('');
-const jsonData = ref<Record<string, any>>({});
-
-watch(() => props.modelValue, newVal => {
-    responseText.value = newVal;
-}, { immediate: true });
-
-watch(responseText, newVal => {
-    jsonData.value = getJsonFromStr(newVal)[1];
-    emit('update:modelValue', newVal);
-}, { immediate: true });
+const {
+    responseText,
+    jsonData,
+    onUpdateJson,
+} = useJsonRes(toRef(props, 'modelValue'), emit);
 
 const editWinRef = ref<IJsonEditWin | null>(null);
-const onUpdateJson = ( { nodePath, nodeVal }: { nodePath: string; nodeVal: unknown; } ) => {
-    let res = jsonData.value;
-    (new Function('res', 'nodeVal', `return res${nodePath.replace('root', '')}=nodeVal`))(res, nodeVal);
-    responseText.value = JSON.stringify(res, null, 4);
-};
 
 const onNodeClick = (nodePath: string, nodeVal: string) => {
     let errList = ['{', '}', '{...}', '[', ']', '[...]'];

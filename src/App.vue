@@ -21,7 +21,6 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { NMessageProvider } from 'naive-ui';
-import { backgroundPart, iframePart, appOnKey, contentPart, injectPart } from '@/const';
 import { useAppOn } from '@/hooks/index';
 
 const {

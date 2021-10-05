@@ -1,7 +1,7 @@
 
-import { reactive, watch, Ref } from 'vue';
+import { reactive, watch, ref, Ref } from 'vue';
 import { useMessage } from 'naive-ui';
-import { shallowCopy } from '@/utils/index';
+import { shallowCopy, getJsonFromStr } from '@/utils/index';
 import { ruleKey } from '@/const';
 
 interface CardData {
@@ -76,5 +76,31 @@ export const useRule = ({ setUrlCard, rules, isAppOn }: UseRuleArgs) => {
 
     return {
         saveRule,
+    };
+};
+
+export const useJsonRes = (modelValue: Ref<string>, emit: (...args: any[]) => void) => {
+    const responseText = ref('');
+    const jsonData = ref<Record<string, any>>({});
+
+    watch(modelValue, newVal => {
+        responseText.value = newVal;
+    }, { immediate: true });
+
+    watch(responseText, newVal => {
+        jsonData.value = getJsonFromStr(newVal)[1];
+        emit('update:modelValue', newVal);
+    }, { immediate: true });
+
+    const onUpdateJson = ( { nodePath, nodeVal }: { nodePath: string; nodeVal: unknown; } ) => {
+        let res = jsonData.value;
+        (new Function('res', 'nodeVal', `return res${nodePath.replace('root', '')}=nodeVal`))(res, nodeVal);
+        responseText.value = JSON.stringify(res, null, 4);
+    };
+
+    return {
+        responseText,
+        jsonData,
+        onUpdateJson,
     };
 };
