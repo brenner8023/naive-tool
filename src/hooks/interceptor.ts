@@ -1,8 +1,8 @@
 
-import { reactive, watch, ref, Ref } from 'vue';
+import { reactive, watch, ref, Ref, toRaw } from 'vue';
 import { useMessage } from 'naive-ui';
 import { shallowCopy, getJsonFromStr } from '@/utils/index';
-import { ruleKey } from '@/const';
+import { ruleKey, iframePart, injectPart } from '@/const';
 
 interface CardData {
     name: string
@@ -40,6 +40,20 @@ export const useCard = () => {
     const isCardClose = (cardIndex: number) => {
         return !(urlCardList.length === 1 && cardIndex === 0);
     };
+
+    watch(urlCardList, newVal => {
+        const res = toRaw(newVal);
+        chrome.storage?.local.set({
+            [ruleKey]: res
+        }, () => {
+            window.parent?.postMessage({
+                from: iframePart,
+                to: injectPart,
+                key: ruleKey,
+                value: res,
+            }, '*');
+        });
+    }, { deep: true });
 
     return {
         urlCardList,

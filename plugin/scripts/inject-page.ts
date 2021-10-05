@@ -4,6 +4,7 @@
 
 (() => {
     const appOnKey = 'naiveTool_isAppOn';
+    const ruleKey = 'naiveTool_interceptor_rules';
     const contentPart = 'naiveTool_plugin_content';
     const injectPart = 'naiveTool_plugin_inject';
     const iframePart = 'naiveTool_plugin_iframeApp';
@@ -103,6 +104,8 @@
             // 启动或停止插件
             pageConfig.plugin.isAppOn = value;
             changeReq(value);
+        } else if (from === iframePart && to === injectPart && key === ruleKey) {
+            pageConfig.plugin.interceptorRules = value;
         }
     }, false);
 })();
