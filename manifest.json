@@ -1,0 +1,36 @@
+{
+  "name": "naive-tool",
+  "version": "0.1.0",
+  "manifest_version": 2,
+  "description": "前端工程师不能没有我，就像迪迦不能没有光。",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
+  "permissions": [
+    "storage",
+    "tabs",
+    "http://*/",
+    "https://*/"
+  ],
+  "background": {
+    "scripts": ["plugin-scripts/background.js"]
+  },
+  "browser_action": {
+  },
+  "icons": {
+    "16": "icons/logo-16-disable.png",
+    "32": "icons/logo-32-disable.png",
+    "48": "icons/logo-48-disable.png",
+    "128": "icons/logo-128-disable.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["plugin-scripts/content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    "plugin-scripts/inject-page.js",
+    "index.html"
+  ]
+}

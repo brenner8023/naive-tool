@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+      "target": "esnext",
+      "module": "esnext",
+      "strict": true,
+      "jsx": "preserve",
+      "importHelpers": true,
+      "moduleResolution": "node",
+      "allowJs": true,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "sourceMap": false,
+      "baseUrl": ".",
+      "noUnusedLocals": true,
+      "noUnusedParameters": false,
+      "paths": {
+          "@/*": ["src/*"]
+      },
+      "lib": ["esnext", "dom", "dom.iterable"],
+      "types": ["vite/client", "@types/chrome"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.vue", "components.d.ts"],
+  "exclude": ["node_modules"]
+}

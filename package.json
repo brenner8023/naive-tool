@@ -1,0 +1,25 @@
+{
+  "name": "naive-tool",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node scripts/build.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vitejs/plugin-vue": "^1.9.2",
+    "naive-ui": "^2.19.3",
+    "vite": "^2.5.10",
+    "vue": "^3.2.19",
+    "vue-json-pretty": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.158",
+    "typescript": "^4.4.3",
+    "unplugin-vue-components": "^0.15.3"
+  }
+}
