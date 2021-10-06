@@ -1,5 +1,6 @@
 /**
  * @file 运行一些后台脚本，比如监听用户在扩展信息栏点击插件图标，监听用户新建tab页
+ * 存放一直运行的、启动就运行的、全局的代码
  */
 
 const appOnKey = 'naiveTool_isAppOn';

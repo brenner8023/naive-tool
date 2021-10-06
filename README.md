@@ -1,5 +1,5 @@
 # naive-tool
-> 基于Vue3、TypeScript实现的Chrome插件
+> 基于Vue3、TypeScript实现的Chrome插件（扩展）
 
 技术栈：
 - Vue3.x
@@ -17,3 +17,4 @@
 
 ### 参考
 - [ajax-interceptor](https://github.com/YGYOOO/ajax-interceptor)
+- [Chrome插件（扩展）开发全攻略](https://github.com/sxei/chrome-plugin-demo)
