@@ -9,7 +9,7 @@
 
 功能：
 - [x] Interceptor(请求拦截修改器)
-- [ ] Json2TS
+- [x] Json2TS
 
 ### 测试
 - xhr请求可以访问简书进行测试

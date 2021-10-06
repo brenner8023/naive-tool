@@ -3,19 +3,19 @@
     <NSpace justify="end">
       <NSwitch v-model:value="isAppOn" />
     </NSpace>
-    <NTabs v-show="isAppOn" type="line">
-      <NTabPane name="interceptor" tab="Interceptor">
-        <NMessageProvider placement="bottom-right">
+    <NMessageProvider placement="bottom-right">
+      <NTabs v-show="isAppOn" type="line">
+        <NTabPane name="interceptor" tab="Interceptor">
           <Interceptor :is-app-on="isAppOn" />
-        </NMessageProvider>
-      </NTabPane>
-      <NTabPane name="the beatles" tab="the Beatles">
-        Hey Jude
-      </NTabPane>
-      <NTabPane name="jay chou" tab="周杰伦">
-        七里香
-      </NTabPane>
-    </NTabs>
+        </NTabPane>
+        <NTabPane name="json-ts" tab="JsonTS">
+          <JsonTs />
+        </NTabPane>
+        <NTabPane name="jay chou" tab="周杰伦">
+          七里香
+        </NTabPane>
+      </NTabs>
+    </NMessageProvider>
     <div v-show="!isAppOn" class="naive-tool__empty">
       <img src="./img/empty.svg" alt="empty">
     </div>
