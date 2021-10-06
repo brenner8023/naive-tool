@@ -5,10 +5,27 @@
  (() => {
     const appOnKey = 'naiveTool_isAppOn';
     const ruleKey = 'naiveTool_interceptor_rules';
+    const iframePart = 'naiveTool_plugin_iframeApp';
     const contentPart = 'naiveTool_plugin_content';
     const injectPart = 'naiveTool_plugin_inject';
     const backgroundPart = 'naiveTool_plugin_background';
     const toggleIframe = 'naiveTool_plugin_toggoleIframeShow';
+    const matchedEvent = 'naiveTool-matched-url';
+    let isIframeLoaded = false;
+
+    window.addEventListener(matchedEvent, (eventData: Record<string, any>) => {
+        const timer = window.setInterval(() => {
+            if (isIframeLoaded) {
+                chrome.runtime.sendMessage({
+                    from: contentPart,
+                    to: iframePart,
+                    key: matchedEvent,
+                    detail: eventData.detail
+                });
+                window.clearInterval(timer);
+            }
+        }, 100);
+    });
 
     function appendScript() {
         const myScript = document.createElement('script');
@@ -35,7 +52,7 @@
     }
 
     function appendIframe() {
-        let iframe: HTMLIFrameElement;
+        let myIframe: HTMLIFrameElement;
 
         const iframeStyleList = [
             {
@@ -85,19 +102,23 @@
 
             document.onreadystatechange = () => {
                 if (document.readyState === 'complete') {
-                    iframe = document.createElement('iframe');
-                    iframe.className = 'naive-tool';
+                    myIframe = document.createElement('iframe');
+                    myIframe.name = 'naive-tool';
                     iframeStyleList.forEach(styleProp => {
-                        iframe.style.setProperty(styleProp.name, styleProp.value, 'important');
+                        myIframe.style.setProperty(styleProp.name, styleProp.value, 'important');
                     });
-                    iframe.src = chrome.extension.getURL('index.html');
-                    document.body.appendChild(iframe);
+                    myIframe.src = chrome.extension.getURL('index.html');
+                    document.body.appendChild(myIframe);
+
+                    myIframe.addEventListener('load', () => {
+                        isIframeLoaded = true;
+                    });
 
                     let isIframeShow = false;
                     chrome.runtime?.onMessage.addListener(({ from, to, value }) => {
                         if (from === backgroundPart && to === contentPart && value === toggleIframe) {
                             isIframeShow = !isIframeShow;
-                            iframe.style.setProperty(
+                            myIframe.style.setProperty(
                                 'transform',
                                 isIframeShow ? 'translateX(0)' : 'translateX(520px)', 'important'
                             );

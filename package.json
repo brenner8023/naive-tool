@@ -1,7 +1,7 @@
 {
   "name": "naive-tool",
   "version": "0.1.0",
-  "description": "",
+  "description": "前端工程师不能没有我，就像迪迦不能没有光。",
   "main": "index.js",
   "scripts": {
     "dev": "vite",

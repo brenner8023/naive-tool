@@ -15,6 +15,9 @@
         :clearable="true"
         placeholder="interface name"
       />
+      <NTag v-if="matchedMap[cardItem.url]" type="info">
+        {{ matchedMap[cardItem.url] }}
+      </NTag>
     </div>
     <NCollapse display-directive="show">
       <NCollapseItem>
@@ -44,8 +47,9 @@
 </template>
 
 <script lang="ts" setup>
-import { toRaw, toRef } from 'vue';
+import { toRaw, toRef, reactive } from 'vue';
 import { useCard, useRule } from '@/hooks/interceptor';
+import { contentPart, iframePart, matchedEvent } from '@/const';
 
 const props = defineProps({
     isAppOn: {
@@ -67,6 +71,16 @@ const { saveRule } = useRule({
     setUrlCard,
     isAppOn: toRef(props, 'isAppOn'),
 });
+
+const matchedMap = reactive<Record<string, number>>({});
+
+chrome.runtime?.onMessage.addListener(({ from, to, key, detail }) => {
+    if (from === contentPart && to === iframePart && key === matchedEvent) {
+        matchedMap[detail.matchedUrl] ?
+            matchedMap[detail.matchedUrl]++ :
+            matchedMap[detail.matchedUrl] = 1;
+    }
+});
 </script>
 
 <style scoped>
@@ -77,6 +91,7 @@ const { saveRule } = useRule({
 }
 .naive-interceptor__card-name {
     margin-left: 8px;
+    margin-right: 4px;
 }
 .naive-interceptor__btn-group {
     margin-top: 16px;

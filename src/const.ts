@@ -10,3 +10,5 @@ export const contentPart = 'naiveTool_plugin_content';
 export const injectPart = 'naiveTool_plugin_inject';
 
 export const iframePart = 'naiveTool_plugin_iframeApp';
+
+export const matchedEvent = 'naiveTool-matched-url';

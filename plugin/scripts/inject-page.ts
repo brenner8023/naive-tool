@@ -8,6 +8,7 @@
     const contentPart = 'naiveTool_plugin_content';
     const injectPart = 'naiveTool_plugin_inject';
     const iframePart = 'naiveTool_plugin_iframeApp';
+    const matchedEvent = 'naiveTool-matched-url';
 
     const pageConfig = {
         plugin: {
@@ -17,10 +18,14 @@
         originalXhr: window.XMLHttpRequest,
         myXhr: function () {
             const modifyResponse = () => {
-                const [isMatched, result] = getMatchedRule(this.responseURL);
+                const [isMatched, result, matchedUrl] = getMatchedRule(this.responseURL);
                 if (isMatched) {
                     this.responseText = result;
                     this.response = result;
+
+                    window.dispatchEvent(new CustomEvent(matchedEvent, {
+                        detail: { url: this.responseURL, matchedUrl }
+                    }));
                 }
             };
             const xhr = new pageConfig.originalXhr();
@@ -77,10 +82,10 @@
         }
     };
 
-    const getMatchedRule = (responseUrl: string): [boolean, string] => {
+    const getMatchedRule = (responseUrl: string): [boolean, string, string] => {
         let isMatched = false;
         let result = '';
-        pageConfig.plugin.interceptorRules.find(({ isOpen, url, response = '' }) => {
+        const target = pageConfig.plugin.interceptorRules.find(({ isOpen, url, response = '' }) => {
             if (isOpen && url && response && responseUrl.includes(url)) {
                 isMatched = true;
                 result = response;
@@ -88,7 +93,7 @@
             }
             return false;
         });
-        return [isMatched, result];
+        return [isMatched, result, target?.url || ''];
     };
 
     window.addEventListener('message', ({ data: { from, to, key ,value, localData } }) => {
