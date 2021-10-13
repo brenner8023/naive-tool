@@ -13,11 +13,11 @@
   "license": "ISC",
   "dependencies": {
     "@vitejs/plugin-vue": "^1.9.2",
+    "json-pretty-patch": "^1.0.1",
     "json-to-ts": "^1.7.0",
     "naive-ui": "^2.19.3",
     "vite": "^2.5.10",
-    "vue": "^3.2.19",
-    "vue-json-pretty": "^2.0.4"
+    "vue": "^3.2.19"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.158",

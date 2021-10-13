@@ -1253,6 +1253,11 @@ js-yaml@^3.13.1:
     argparse "^1.0.7"
     esprima "^4.0.0"
 
+json-pretty-patch@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/json-pretty-patch/-/json-pretty-patch-1.0.1.tgz#5871395def6951947fa3b721d3f9dead25c476cc"
+  integrity sha512-qI8PdT2RjZRgOV2MyggJtDJXO+midzU8nYdLS1iMTiYtdEUTqH6bUh0kQhLCyfzByy88TOl+OQCy1+b9tOuhCA==
+
 json-schema-traverse@^0.4.1:
   version "0.4.1"
   resolved "https://r.cnpmjs.org/json-schema-traverse/download/json-schema-traverse-0.4.1.tgz#69f6a87d9513ab8bb8fe63bdb0979c448e684660"
@@ -1383,15 +1388,15 @@ nanocolors@^0.1.5:
   resolved "https://r.cnpmjs.org/nanocolors/download/nanocolors-0.1.12.tgz#8577482c58cbd7b5bb1681db4cf48f11a87fd5f6"
   integrity sha1-hXdILFjL17W7FoHbTPSPEah/1fY=
 
-nanocolors@^0.2.2:
-  version "0.2.12"
-  resolved "https://r.cnpmjs.org/nanocolors/download/nanocolors-0.2.12.tgz#4d05932e70116078673ea4cc6699a1c56cc77777"
-  integrity sha1-TQWTLnARYHhnPqTMZpmhxWzHd3c=
-
 nanoid@^3.1.25:
   version "3.1.25"
   resolved "https://r.cnpmjs.org/nanoid/download/nanoid-3.1.25.tgz#09ca32747c0e543f0e1814b7d3793477f9c8e152"
   integrity sha1-CcoydHwOVD8OGBS303k0d/nI4VI=
+
+nanoid@^3.1.28:
+  version "3.1.29"
+  resolved "https://r.cnpmjs.org/nanoid/download/nanoid-3.1.29.tgz#214fb2d7a33e1a5bef4757b779dfaeb6a4e5aeb4"
+  integrity sha1-IU+y16M+GlvvR1e3ed+utqTlrrQ=
 
 natural-compare@^1.4.0:
   version "1.4.0"
@@ -1501,6 +1506,11 @@ pathe@^0.0.2:
   resolved "https://r.cnpmjs.org/pathe/download/pathe-0.0.2.tgz#d690780e578a8127e1d65828387609c153afc309"
   integrity sha1-1pB4DleKgSfh1lgoOHYJwVOvwwk=
 
+picocolors@^0.2.1:
+  version "0.2.1"
+  resolved "https://r.cnpmjs.org/picocolors/download/picocolors-0.2.1.tgz#570670f793646851d1ba135996962abad587859f"
+  integrity sha1-VwZw95NkaFHRuhNZlpYqutWHhZ8=
+
 picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.2, picomatch@^2.2.3:
   version "2.3.0"
   resolved "https://r.cnpmjs.org/picomatch/download/picomatch-2.3.0.tgz#f1f061de8f6a4bf022892e2d128234fb98302972"
@@ -1512,12 +1522,12 @@ pluralize@^3.1.0:
   integrity sha1-hCE9ChI1YGnaqEBgxVkkJjMWE2g=
 
 postcss@^8.1.10:
-  version "8.3.8"
-  resolved "https://r.cnpmjs.org/postcss/download/postcss-8.3.8.tgz#9ebe2a127396b4b4570ae9f7770e7fb83db2bac1"
-  integrity sha1-nr4qEnOWtLRXCun3dw5/uD2yusE=
+  version "8.3.9"
+  resolved "https://r.cnpmjs.org/postcss/download/postcss-8.3.9.tgz#98754caa06c4ee9eb59cc48bd073bb6bd3437c31"
+  integrity sha1-mHVMqgbE7p61nMSL0HO7a9NDfDE=
   dependencies:
-    nanocolors "^0.2.2"
-    nanoid "^3.1.25"
+    nanoid "^3.1.28"
+    picocolors "^0.2.1"
     source-map-js "^0.6.2"
 
 postcss@^8.3.6:
@@ -1948,11 +1958,6 @@ vue-eslint-parser@^7.10.0:
     esquery "^1.4.0"
     lodash "^4.17.21"
     semver "^6.3.0"
-
-vue-json-pretty@^2.0.4:
-  version "2.0.4"
-  resolved "https://r.cnpmjs.org/vue-json-pretty/download/vue-json-pretty-2.0.4.tgz#2f6e7f59a84e0e1ef41dd33663c3e1d1a9734a29"
-  integrity sha1-L25/WahODh70HdM2Y8Ph0alzSik=
 
 vue@^3.2.19:
   version "3.2.19"

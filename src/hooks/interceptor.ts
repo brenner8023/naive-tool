@@ -118,3 +118,24 @@ export const useJsonRes = (modelValue: Ref<string>, emit: (...args: any[]) => vo
         onUpdateJson,
     };
 };
+
+export const useRemoveNode = (
+    onUpdateJson: (arg: { nodePath: string; nodeVal: any; }) => void
+) => {
+    const showRemoveModal = ref(false);
+    const removePath = ref('');
+    const onRemoveNode = () => {
+        onUpdateJson({ nodePath: removePath.value, nodeVal: undefined });
+    };
+    const onRemoveModalShow = (path: string) => {
+        showRemoveModal.value = true;
+        removePath.value = path;
+    };
+
+    return {
+        removePath,
+        showRemoveModal,
+        onRemoveNode,
+        onRemoveModalShow,
+    };
+};
