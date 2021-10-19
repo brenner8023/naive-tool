@@ -112,10 +112,17 @@ export const useJsonRes = (modelValue: Ref<string>, emit: (...args: any[]) => vo
         responseText.value = JSON.stringify(res, null, 4);
     };
 
+    const onAddJson = ({ path, key, val }: Record<string, any>) => {
+        const res = jsonData.value;
+        (new Function('res', 'val', `return res${path.replace('root', '')}.${key}=val`))(res, val);
+        responseText.value = JSON.stringify(res, null, 4);
+    };
+
     return {
         responseText,
         jsonData,
         onUpdateJson,
+        onAddJson,
     };
 };
 

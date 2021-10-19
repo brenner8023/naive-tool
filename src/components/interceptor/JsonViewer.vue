@@ -14,6 +14,7 @@
     @patch-action="onPatchAction"
   />
   <JsonEditWin ref="editWinRef" @update-json="onUpdateJson" />
+  <JsonAddWin ref="addWinRef" @add-json="onAddJson" />
   <NModal
     v-model:show="showRemoveModal"
     preset="dialog"
@@ -30,7 +31,7 @@ import JsonPretty from 'json-pretty-patch';
 import 'json-pretty-patch/lib/styles.css';
 import { useJsonRes, useRemoveNode } from '@/hooks/interceptor';
 
-import type { IJsonEditWin } from './JsonEditWin.vue';
+import type { IJsonEditWin, IJsonAddWin, PatchActionEventData } from '@/types/index';
 
 const props = defineProps({
     modelValue: {
@@ -45,9 +46,11 @@ const {
     responseText,
     jsonData,
     onUpdateJson,
+    onAddJson,
 } = useJsonRes(toRef(props, 'modelValue'), emit);
 
 const editWinRef = ref<IJsonEditWin | null>(null);
+const addWinRef = ref<IJsonAddWin | null>(null);
 
 const {
     removePath,
@@ -56,16 +59,12 @@ const {
     onRemoveNode,
 } = useRemoveNode(onUpdateJson);
 
-interface PatchActionEventData {
-    event: 'patch-remove' | 'patch-add' | 'patch-edit'
-    nodeData: { content: string; path: string; }
-}
-
 const onPatchAction = (eventData: PatchActionEventData) => {
     if (eventData.event === 'patch-remove') {
         onRemoveModalShow(eventData.nodeData.path);
     } else if (eventData.event === 'patch-add') {
-
+        let { path } = eventData.nodeData;
+        addWinRef.value?.showWin({ nodePath: path });
     } else {
         let { content, path } = eventData.nodeData;
         editWinRef.value?.showWin({ nodeVal: content, nodePath: path });

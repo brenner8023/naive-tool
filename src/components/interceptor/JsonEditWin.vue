@@ -28,6 +28,8 @@
 import { ref, computed } from 'vue';
 import { getJsonFromStr } from '@/utils/index';
 
+import type { IJsonEditWin } from '@/types/index';
+
 const emit = defineEmits(['update-json']);
 
 const isShowModal = ref(false);
@@ -60,9 +62,6 @@ const submitJsonVal = () => {
     emit('update-json', { nodePath: jsonNodePath.value, nodeVal: jsonNodeVal.value });
 };
 
-export interface IJsonEditWin {
-    showWin: ({ nodePath, nodeVal }: Record<string, string>) => void
-}
 let exposed: IJsonEditWin = {
     showWin: ({ nodePath, nodeVal }: Record<string, string>) => {
         jsonNodePath.value = nodePath;
