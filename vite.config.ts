@@ -9,6 +9,11 @@ export default ({ mode }) => {
 
     return defineConfig({
         base: __DEV__ ? '/' : './',
+        define: {
+            process: {
+                platform: null,
+            },
+        },
         resolve: {
             alias: {
                 '@': resolve(__dirname, 'src')

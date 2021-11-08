@@ -17,7 +17,7 @@ module.exports = {
     ],
     rules: {
         quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
-        "@typescript-eslint/explicit-module-boundary-types": "off",
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
         'vue/max-attributes-per-line': 'off',
         'vue/no-multiple-template-root': 'off',
         '@typescript-eslint/no-explicit-any': 'off',

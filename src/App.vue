@@ -11,8 +11,8 @@
         <NTabPane name="json-ts" tab="JsonTS">
           <JsonTs />
         </NTabPane>
-        <NTabPane name="jay chou" tab="周杰伦">
-          七里香
+        <NTabPane name="jsondiff" tab="JsonDiff">
+          <JsonDiff />
         </NTabPane>
       </NTabs>
     </NMessageProvider>
