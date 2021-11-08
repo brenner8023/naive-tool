@@ -10,9 +10,7 @@ export default ({ mode }) => {
     return defineConfig({
         base: __DEV__ ? '/' : './',
         define: {
-            process: {
-                platform: null,
-            },
+            'process.platform': null,
         },
         resolve: {
             alias: {
