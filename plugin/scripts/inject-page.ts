@@ -71,14 +71,66 @@
             }
         },
         originalFetch: window.fetch.bind(window),
-        myFetch: function (...args) { console.log(args); },
+        myFetch: function (...args) {
+            return pageConfig.originalFetch(...args).then((res: Response) => {
+                let overrideData;
+                const [isMatched, result, matchedUrl] = getMatchedRule(res.url);
+                if (isMatched) {
+                    overrideData = result;
+                    window.dispatchEvent(new CustomEvent(matchedEvent, {
+                        detail: { url: res.url, matchedUrl },
+                    }));
+                    if (overrideData) {
+                        const stream = new ReadableStream({
+                            start(controller) {
+                                const bufView = new Uint8Array(new ArrayBuffer(overrideData.length));
+                                for (let i = 0; i < overrideData.length; i++) {
+                                    bufView[i] = overrideData.charCodeAt(i);
+                                }
+                                controller.enqueue(bufView);
+                                controller.close();
+                            }
+                        });
+                        const newResponse = new Response(stream, {
+                            headers: res.headers,
+                            status: res.status,
+                            statusText: res.statusText,
+                        });
+                        const proxy = new Proxy(newResponse, {
+                            get (target, name) {
+                              switch(name) {
+                                case 'ok':
+                                case 'redirected':
+                                case 'type':
+                                case 'url':
+                                case 'useFinalURL':
+                                case 'body':
+                                case 'bodyUsed':
+                                  return res[name];
+                              }
+                              return target[name];
+                            }
+                        });
+                        for(const key in proxy) {
+                            if (typeof proxy[key] === 'function') {
+                                proxy[key] = proxy[key].bind(newResponse);
+                            }
+                        }
+                        return proxy;
+                    }
+                }
+                return res;
+            });
+         },
     };
 
     const changeReq = (isAppOn: boolean) => {
         if (isAppOn) {
             window.XMLHttpRequest = pageConfig.myXhr as any;
+            window.fetch = pageConfig.myFetch;
         } else {
             window.XMLHttpRequest = pageConfig.originalXhr;
+            window.fetch = pageConfig.originalFetch;
         }
     };
 
