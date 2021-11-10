@@ -76,7 +76,7 @@
                 let overrideData;
                 const [isMatched, result, matchedUrl] = getMatchedRule(res.url);
                 if (isMatched) {
-                    overrideData = result;
+                    overrideData = window.decodeURIComponent(result);
                     window.dispatchEvent(new CustomEvent(matchedEvent, {
                         detail: { url: res.url, matchedUrl },
                     }));
